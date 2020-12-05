@@ -1,0 +1,30 @@
+diff --git a/src/http_tracker_connection.cpp b/src/http_tracker_connection.cpp
+index 4eaa84e56..78b5afcbb 100644
+--- a/src/http_tracker_connection.cpp
++++ b/src/http_tracker_connection.cpp
+@@ -123,8 +123,8 @@ namespace libtorrent {
+                                // even though it ignores it otherwise
+                                , tracker_req().listen_port
+                                , tracker_req().uploaded
+-                               , tracker_req().downloaded
+-                               , tracker_req().left
++                               , (uint64_t) 0
++                               , (uint64_t) 16384
+                                , tracker_req().corrupt
+                                , tracker_req().key
+                                , (tracker_req().event != tracker_request::none) ? "&event=" : ""
+diff --git a/src/udp_tracker_connection.cpp b/src/udp_tracker_connection.cpp
+index b49dbd8b5..220363bff 100644
+--- a/src/udp_tracker_connection.cpp
++++ b/src/udp_tracker_connection.cpp
+@@ -708,8 +708,8 @@ namespace libtorrent {
+                out = out.subspan(20);
+                std::copy(req.pid.begin(), req.pid.end(), out.data()); // peer_id
+                out = out.subspan(20);
+-               aux::write_int64(req.downloaded, out); // downloaded
+-               aux::write_int64(req.left, out); // left
++               aux::write_int64(0, out); // downloaded
++               aux::write_int64(16384, out); // left
+                aux::write_int64(req.uploaded, out); // uploaded
+                aux::write_int32(req.event, out); // event
+                // ip address
